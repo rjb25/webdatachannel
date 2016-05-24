@@ -9,6 +9,7 @@
 //pass it the shooting function to assign?
 // make canvas have a range option to move to player, will need an update method
 //simply call trackStop on view instance
+//testing123
 								var iterationTime = 30;
                 //canvas
                 var canvas = document.getElementById("myCanvas");
