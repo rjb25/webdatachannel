@@ -1,17 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 	<script src="app/socket.io.js"></script>
 	<script src="app/Peeer.js"></script>
-	<script src="app/app.js"></script>
 	<link rel="stylesheet" href="assets/css/styles.css"></link>
+    <meta charset="utf-8" />
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+        
+        canvas {
+            background: #eee;
+            display: block;
+            margin: 0 auto;
+            cursor: none;
+        }
+    </style>
 </head>
 <body>
 	<div id="channelWrapper">
 		<textarea id="channelIn"></textarea>
 		<textarea id="channelOut"></textarea>
 		<button id="channelSend">Send</button>
+
+
+    <canvas id="myCanvas" width="980" height="420"></canvas>
+        <script src="game/level.js"></script>
+	<script src="app/app.js"></script>
+
+    <button onclick="setInterval(update,iterationTime);">start</button>
 	</div>
 	<div id="thiskey"></div>
 	<div id="handshake">

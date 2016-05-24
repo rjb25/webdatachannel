@@ -35,11 +35,12 @@ var Peeer = (function() {
 		}
 		peerConnection = new webkitRTCPeerConnection(SERVERS,
 		{
-			optional: [
+			/*optional: [
 				{
 					RtpDataChannels: true
 				}
 			]
+*/
 		});
 		peerConnection.onicecandidate = function(event) {
 			if(params.onCandidate && event.candidate) {

@@ -1,11 +1,23 @@
 var App = (function() {
-	var SOCKET_ADDRESS = 'http://localhost:8080';
-	// var SOCKET_ADDRESS = 'http://209.114.35.172:8080';
+	//var SOCKET_ADDRESS = 'http://localhost:8080';
+	var SOCKET_ADDRESS = 'http://45.32.236.82:8080';
 	var channel;
 	var socket;
 	var onMessage = function(message) {
-		$('#channelIn')[0].value += event.data;
-	}
+			var sentObject = JSON.parse(event.data);
+		if(sentObject["set"]){
+				window.alert(sentObject["set"]);
+				window[sentObject["set"][0]] = sentObject["set"][1];
+				
+		}
+		if(event.data == "down"){
+		mouseDown = true;
+		}else if(event.data == "up"){
+		mouseDown = false;
+		}else{
+                $('#channelIn')[0].value += event.data;
+		}
+        }
 	var showUserMessage = function(message) {
 		$('#message').html(message);
 	}
@@ -111,7 +123,64 @@ var App = (function() {
 				$('#channelOut').val('');
 				channel.send(message);
 			});
+                document.addEventListener("keydown", keydown, false); 
+                document.addEventListener("keyup", keyup, false); 
+ 
+                function keydown(e) { 
+                    if (e.keyCode == 68) { 
+                        channel.send("{set : [rightPressed, true]}"); 
+//right pressed
+                    } 
+                    if (e.keyCode == 65) { 
+                        channel.send("set", "hey"); 
+                        //leftPressed = true; 
+                    } 
+                    if (e.keyCode == 87) { 
+                        channel.send("set", "hey"); 
+                        //upPressed = true; 
+                    } 
+                    if (e.keyCode == 83) { 
+                        channel.send("set", "hey"); 
+                        //downPressed = true; 
+                    } 
+                    if (e.keyCode == 82) { 
+                        window.alert("restarting"); 
+                        document.location.reload(); 
+ 
+                    } 
+                } 
+ 
+                function keyup(e) { 
+                    if (e.keyCode == 68) { 
+                        //rightPressed = false; 
+                    } 
+                    if (e.keyCode == 65) { 
+                        //leftPressed = false; 
+                    } 
+                    if (e.keyCode == 87) { 
+                        //upPressed = false; 
+                    } 
+                    if (e.keyCode == 83) { 
+                        //downPressed = false; 
+                    } 
+}
+
+                function mouseDownHandler() { 
+                     mouseDown = true; 
+			if(channel){
+			channel.send("down");
+			}
+                } 
+                function mouseUpHandler(){ 
+                      mouseDown = false; 
+			if(channel){
+			channel.send("up");
+			}
+                } 
+                document.addEventListener("mousedown", mouseDownHandler, false); 
+                document.addEventListener("mouseup", mouseUpHandler, false); 
 			$('#channelWrapper').hide();
+			
 		}
 	}
 	return App;
