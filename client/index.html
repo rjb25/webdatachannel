@@ -24,14 +24,19 @@
 	<div id="channelWrapper">
 		<textarea id="channelIn"></textarea>
 		<textarea id="channelOut"></textarea>
+		
 		<button id="channelSend">Send</button>
 
 
     <canvas id="myCanvas" width="980" height="420"></canvas>
         <script src="game/level.js"></script>
 	<script src="app/app.js"></script>
+		<input type="text" id="username">username</input>
+		<input type="text" id="startX">start x</input>
+		<input type="text" id="startY">start y</input>
+		<button onclick="setLocalPlayer()" id="setPlayer">Set Player</button>
 
-    <button onclick="setInterval(update,iterationTime);">start</button>
+    <button onclick="setInterval(update,iterationTime); playing = true;">start</button>
 	</div>
 	<div id="thiskey"></div>
 	<div id="handshake">

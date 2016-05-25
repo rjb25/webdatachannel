@@ -11,7 +11,6 @@
 //simply call trackStop on view instance
 //testing123
 var iterationTime = 30;
-var playing = false;
 //canvas
 var localUser = null;
 var userx = 100;
@@ -651,16 +650,15 @@ document.addEventListener("keyup", keyup, false);
 
 function keydown(e) {
   if (e.keyCode == 68) {
-    if (rightPressed == false && playing) {
+    if (rightPressed == false) {
       sendObj({
         "set": ["rightPressed", true]
-	
       });
     }
     rightPressed = true;
   }
   if (e.keyCode == 65) {
-    if (leftPressed == false && playing) {
+    if (leftPressed == false) {
       sendObj({
         "set": ["leftPressed", true]
       });
@@ -668,7 +666,7 @@ function keydown(e) {
     leftPressed = true;
   }
   if (e.keyCode == 87) {
-    if (upPressed == false && playing) {
+    if (upPressed == false) {
       sendObj({
         "set": ["upPressed", true]
       });
@@ -676,48 +674,49 @@ function keydown(e) {
     upPressed = true;
   }
   if (e.keyCode == 83) {
-    if (downPressed == false && playing) {
+    if (downPressed == false) {
       sendObj({
         "set": ["downPressed", true]
       });
     }
     downPressed = true;
   }
+  if (e.keyCode == 82) {
+    window.alert("restarting");
+    document.location.reload();
+
+  }
 }
 
 function keyup(e) {
   if (e.keyCode == 68) {
-    if (rightPressed == true && playing) {
+    if (rightPressed == true) {
       sendObj({
-        "set": ["rightPressed", false],
-        "setStats": ["x", localUser.x]
+        "set": ["rightPressed", false]
       });
     }
     rightPressed = false;
   }
   if (e.keyCode == 65) {
-    if (leftPressed == true && playing) {
+    if (leftPressed == true) {
       sendObj({
-        "set": ["leftPressed", false],
-        "setStats": ["x", localUser.x]
+        "set": ["leftPressed", false]
       });
     }
     leftPressed = false;
   }
   if (e.keyCode == 87) {
-    if (upPressed == true && playing) {
+    if (upPressed == true) {
       sendObj({
-        "set": ["upPressed", false],
-        "setStats": ["y", localUser.y]
+        "set": ["upPressed", false]
       });
     }
     upPressed = false;
   }
   if (e.keyCode == 83) {
-    if (downPressed == true && playing) {
+    if (downPressed == true) {
       sendObj({
-        "set": ["downPressed", false],
-        "setStats": ["y", localUser.y]
+        "set": ["downPressed", false]
       });
     }
     downPressed = false;

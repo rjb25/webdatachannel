@@ -1,15 +1,43 @@
 var App = (function() {
-	//var SOCKET_ADDRESS = 'http://localhost:8080';
-	var SOCKET_ADDRESS = 'http://45.32.236.82:8080';
+	var SOCKET_ADDRESS = 'http://localhost:8080';
+	//var SOCKET_ADDRESS = 'http://45.32.236.82:8080';
 	var channel;
 	var socket;
 	var onMessage = function(message) {
+        if(event.data[0] == "{"){
+        var sentObject = JSON.parse(event.data);
+ 	if(sentObject["set"] != undefined){	
+  window[sentObject.tag + sentObject["set"][0]] = sentObject["set"][1];
+                }
+  	if(sentObject["setMore"] != undefined){
+	var multiSet = sentObject["setMore"];
+           multiSet.forEach(function(entry, index){
+  window[sentObject.tag + multiSet[index][0]] = multiSet[index][1];
+					}); 	
+                }
+  	if(sentObject["setStats"] != undefined){
+	var statsSet = sentObject["setStats"];
+	if(Array.isArray(statsSet[0])){
+           statsSet.forEach(function(entry, index){
+  window[sentObject.tag][statsSet[index][0]] = statsSet[index][1];
+					}); 	
+          }else{
+  window[sentObject.tag][statsSet[0]] = statsSet[1];
+	}
+	}
+ 		if(sentObject["remotePlayer"] != undefined){
+			 var remoteUserInfo = sentObject["remotePlayer"];
+				setRemotePlayer(remoteUserInfo[0], remoteUserInfo[1], remoteUserInfo[2]);
+                }
+		}
+/*
+		if(event.data[0] == "{"){
 			var sentObject = JSON.parse(event.data);
-		if(sentObject["set"]){
 				window.alert(sentObject["set"]);
 				window[sentObject["set"][0]] = sentObject["set"][1];
 				
 		}
+*/
 		if(event.data == "down"){
 		mouseDown = true;
 		}else if(event.data == "up"){
@@ -123,62 +151,30 @@ var App = (function() {
 				$('#channelOut').val('');
 				channel.send(message);
 			});
-                document.addEventListener("keydown", keydown, false); 
-                document.addEventListener("keyup", keyup, false); 
- 
-                function keydown(e) { 
-                    if (e.keyCode == 68) { 
-                        channel.send("{set : [rightPressed, true]}"); 
-//right pressed
-                    } 
-                    if (e.keyCode == 65) { 
-                        channel.send("set", "hey"); 
-                        //leftPressed = true; 
-                    } 
-                    if (e.keyCode == 87) { 
-                        channel.send("set", "hey"); 
-                        //upPressed = true; 
-                    } 
-                    if (e.keyCode == 83) { 
-                        channel.send("set", "hey"); 
-                        //downPressed = true; 
-                    } 
-                    if (e.keyCode == 82) { 
-                        window.alert("restarting"); 
-                        document.location.reload(); 
- 
-                    } 
+ document.getElementById("setPlayer").addEventListener("click", function(){
+    channel.send('{"remotePlayer": ["'+ document.getElementById("username").value + '", ' + document.getElementById("startX").value + ', ' + document.getElementById("startY").value + ']}');
+});
+		sendObj = function tagSend(obj){
+                                obj.tag = localUser.tag;
+                                var message = JSON.stringify(obj); 
+                                channel.send(message); 
                 } 
- 
-                function keyup(e) { 
-                    if (e.keyCode == 68) { 
-                        //rightPressed = false; 
-                    } 
-                    if (e.keyCode == 65) { 
-                        //leftPressed = false; 
-                    } 
-                    if (e.keyCode == 87) { 
-                        //upPressed = false; 
-                    } 
-                    if (e.keyCode == 83) { 
-                        //downPressed = false; 
-                    } 
-}
+				
 
-                function mouseDownHandler() { 
+                function mouseDownHandlersend() { 
                      mouseDown = true; 
 			if(channel){
 			channel.send("down");
 			}
                 } 
-                function mouseUpHandler(){ 
+                function mouseUpHandlersend(){ 
                       mouseDown = false; 
 			if(channel){
 			channel.send("up");
 			}
                 } 
-                document.addEventListener("mousedown", mouseDownHandler, false); 
-                document.addEventListener("mouseup", mouseUpHandler, false); 
+                document.addEventListener("mousedown", mouseDownHandlersend, false); 
+                document.addEventListener("mouseup", mouseUpHandlersend, false); 
 			$('#channelWrapper').hide();
 			
 		}
